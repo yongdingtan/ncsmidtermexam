@@ -419,7 +419,6 @@ public class MainClass implements IOrderService{
         document.addPage(page);
         PDPageContentStream content;
 		String line;
-		float LINE_HEIGHT = 10;
 			try{
 				content = new PDPageContentStream(document, page);
                 content.setFont(PDType1Font.TIMES_ROMAN, 12);
