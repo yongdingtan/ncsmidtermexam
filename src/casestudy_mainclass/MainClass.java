@@ -22,6 +22,8 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+import be.quodlibet.boxable.BaseTable;
+import be.quodlibet.boxable.datatable.DataTable;
 import casestudy.exceptions.InvalidCategryException;
 import casestudy.model.Order;
 import casestudy.service.IOrderService;
@@ -29,6 +31,8 @@ import casestudy.service.IOrderService;
 public class MainClass implements IOrderService{
 	
 	Scanner sc = new Scanner(System.in);
+	String path = "C:\\Users\\yongd\\OneDrive\\Desktop\\Mid Term 17-Jun-22-20220617\\CoreJavaTest-main\\CaseStudy_CoreJava\\order.csv";
+	String output = "C:\\Users\\yongd\\OneDrive\\Desktop\\Mid Term 17-Jun-22-20220617\\CoreJavaTest-main\\CaseStudy_CoreJava\\test.pdf";
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -141,7 +145,7 @@ public class MainClass implements IOrderService{
 		
 		List<Order> allOrders = new ArrayList<Order>();
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\yongd\\OneDrive\\Desktop\\Mid Term 17-Jun-22-20220617\\CoreJavaTest-main\\CaseStudy_CoreJava\\Order.csv"));
+			BufferedReader br = new BufferedReader(new FileReader(path));
 			String line;
 			int firstLine = 0;
 
@@ -185,7 +189,7 @@ public class MainClass implements IOrderService{
 	public int getTotalOrderCost(String category) throws InvalidCategryException {
 		int sum = 0;
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\yongd\\OneDrive\\Desktop\\Mid Term 17-Jun-22-20220617\\CoreJavaTest-main\\CaseStudy_CoreJava\\Order.csv"));
+			BufferedReader br = new BufferedReader(new FileReader(path));
 			String line;
 			int firstLine = 0;
 
@@ -223,7 +227,7 @@ public class MainClass implements IOrderService{
 	public List<Order> getAllCanceledOrder() {
 		List<Order> allOrders = new ArrayList<Order>();
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\yongd\\OneDrive\\Desktop\\Mid Term 17-Jun-22-20220617\\CoreJavaTest-main\\CaseStudy_CoreJava\\Order.csv"));
+			BufferedReader br = new BufferedReader(new FileReader(path));
 			String line;
 			int firstLine = 0;
 
@@ -269,7 +273,7 @@ public class MainClass implements IOrderService{
 		
 		Map<String, List<Order>> ordersByUsers = new HashMap<>();
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\yongd\\OneDrive\\Desktop\\Mid Term 17-Jun-22-20220617\\CoreJavaTest-main\\CaseStudy_CoreJava\\Order.csv"));
+			BufferedReader br = new BufferedReader(new FileReader(path));
 			String line;
 			int firstLine = 0;
 
@@ -288,19 +292,19 @@ public class MainClass implements IOrderService{
 					Date dateOfOrder = new SimpleDateFormat("dd-MMM-yy").parse(data[3]);
 					String action = data[4];
 
-					if(!ordersByUsers.containsKey(username))
+					if(!ordersByUsers.containsKey(categoryData))
 					{
 						List<Order> ordersByOneUser = new ArrayList<Order>();
 						Order order = new Order(username, categoryData, orderCost, dateOfOrder, action);
 						ordersByOneUser.add(order);
-						ordersByUsers.put(username, ordersByOneUser);
+						ordersByUsers.put(categoryData, ordersByOneUser);
 					}
 					else
 					{
-						List<Order> previousOrders = ordersByUsers.get(username);
+						List<Order> previousOrders = ordersByUsers.get(categoryData);
 						Order order = new Order(username, categoryData, orderCost, dateOfOrder, action);
 						previousOrders.add(order);
-						ordersByUsers.put(username, previousOrders);
+						ordersByUsers.put(categoryData, previousOrders);
 					}
 				}
 			} catch (IOException e) {
@@ -328,7 +332,7 @@ public class MainClass implements IOrderService{
 		
 		List<Order> allOrders = new ArrayList<Order>();
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\yongd\\OneDrive\\Desktop\\Mid Term 17-Jun-22-20220617\\CoreJavaTest-main\\CaseStudy_CoreJava\\Order.csv"));
+			BufferedReader br = new BufferedReader(new FileReader(path));
 			String line;
 			int firstLine = 0;
 
@@ -372,7 +376,7 @@ public class MainClass implements IOrderService{
 	public List<Order> getOrdersBasedOnOrderValue() {
 		List<Order> allOrders = new ArrayList<Order>();
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\yongd\\OneDrive\\Desktop\\Mid Term 17-Jun-22-20220617\\CoreJavaTest-main\\CaseStudy_CoreJava\\Order.csv"));
+			BufferedReader br = new BufferedReader(new FileReader(path));
 			String line;
 			int firstLine = 0;
 
@@ -413,7 +417,7 @@ public class MainClass implements IOrderService{
 	//online payment and unpaid orders , delivered or cancelled
 	@Override
 	public boolean generatePDFReports() {
-
+		
 		PDDocument document = new PDDocument();
         PDPage page = new PDPage(PDRectangle.A4);
         document.addPage(page);
@@ -422,17 +426,30 @@ public class MainClass implements IOrderService{
 			try{
 				content = new PDPageContentStream(document, page);
                 content.setFont(PDType1Font.TIMES_ROMAN, 12);
-				BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\yongd\\OneDrive\\Desktop\\Mid Term 17-Jun-22-20220617\\CoreJavaTest-main\\CaseStudy_CoreJava\\Order.csv"));
-				int countOne = 0;
-				String[] newString = new String[25];
+				BufferedReader br = new BufferedReader(new FileReader(path));
+				int countOne = -1;
+				int deliveredOrders = 0;
+				int cancelledOrders = 0;
 			    while((line = br.readLine())!=null)
 				{
-					String data[] = line.split(",");
-					String compilation = data[0]+" "+data[1]+" "+data[2]+" "+data[3]+" "+data[4];
-					
-					newString[countOne++] = compilation;
+			    	String[] data = line.split(",");
+			    	for (String string : data) {
+						if(string.equalsIgnoreCase("delivered"))
+						{
+							deliveredOrders++;
+						}else if(string.equals("cancelled"))
+						{
+							cancelledOrders++;
+						}
+								
+					}
+					countOne++;
 					
 				}
+				String[] newString = new String[3];
+				newString[0] = "Total number of Orders: "+countOne++;
+				newString[1] = "Number of Delivered Orders: "+deliveredOrders;
+				newString[2] = "Number of Cancelled Orders: "+cancelledOrders;
 		        int count=1;
 		        for (String cell : newString){
 		        	 	content.beginText();
@@ -442,7 +459,7 @@ public class MainClass implements IOrderService{
 		                ++count;
 		            }
 			content.close();
-			document.save(new File("C:\\Users\\yongd\\OneDrive\\Desktop\\Mid Term 17-Jun-22-20220617\\CoreJavaTest-main\\CaseStudy_CoreJava\\test.pdf"));
+			document.save(new File(output));
 			document.close();
 		} catch (IOException e) {
 			e.printStackTrace();
