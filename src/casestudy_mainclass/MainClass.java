@@ -450,13 +450,13 @@ public class MainClass implements IOrderService{
 				newString[0] = "Total number of Orders: "+countOne++;
 				newString[1] = "Number of Delivered Orders: "+deliveredOrders;
 				newString[2] = "Number of Cancelled Orders: "+cancelledOrders;
-		        int count=1;
+		        int lineWidth=1;
 		        for (String cell : newString){
 		        	 	content.beginText();
-		                content.newLineAtOffset(100, 800 - 20f * count);
+		                content.newLineAtOffset(100, 800 - 20f * lineWidth);
 		                content.showText(cell);
 		                content.endText(); 
-		                ++count;
+		                ++lineWidth;
 		            }
 			content.close();
 			document.save(new File(output));
