@@ -8,5 +8,18 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="pdfbox-app-2.0.26.jar"/>
 	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/boxable-1.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/checker-compat-qual-2.5.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/commons-csv-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/error_prone_annotations-2.3.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/failureaccess-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/fontbox-2.0.21.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/guava-29.0-android.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/j2objc-annotations-1.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/jsoup-1.9.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/jsr305-3.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/pdfbox-2.0.21.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yongd/OneDrive/Desktop/jar_files/slf4j-api-1.7.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

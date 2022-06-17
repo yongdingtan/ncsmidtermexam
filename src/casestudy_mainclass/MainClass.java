@@ -1,5 +1,6 @@
 package casestudy_mainclass;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,8 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import be.quodlibet.boxable.BaseTable;
+import be.quodlibet.boxable.Cell;
+import be.quodlibet.boxable.Row;
 import be.quodlibet.boxable.datatable.DataTable;
 import casestudy.exceptions.InvalidCategryException;
 import casestudy.model.Order;
@@ -423,47 +427,68 @@ public class MainClass implements IOrderService{
         document.addPage(page);
         PDPageContentStream content;
 		String line;
-			try{
-				content = new PDPageContentStream(document, page);
-                content.setFont(PDType1Font.TIMES_ROMAN, 12);
-				BufferedReader br = new BufferedReader(new FileReader(path));
-				int countOne = -1;
-				int deliveredOrders = 0;
-				int cancelledOrders = 0;
-			    while((line = br.readLine())!=null)
-				{
-			    	String[] data = line.split(",");
-			    	for (String string : data) {
-						if(string.equalsIgnoreCase("delivered"))
-						{
-							deliveredOrders++;
-						}else if(string.equals("cancelled"))
-						{
-							cancelledOrders++;
-						}
-								
-					}
-					countOne++;
+		
+		
+	try {
+	BaseTable table = new BaseTable(800, 500, 50, 200, 50, document, page, true, true);
+	//Create Header row
+	Row<PDPage> headerRow = table.createRow(15f);
+	Cell<PDPage> cell = headerRow.createCell(95, "PDF Report Sheet");
+	cell.setFont(PDType1Font.HELVETICA_BOLD);
+	table.addHeaderRow(headerRow);
+	BufferedReader br = new BufferedReader(new FileReader(path));
+	
+	List<String[]> stringArray = new ArrayList<String[]>();
+	int countOne = -1;
+	int deliveredOrders = 0;
+	int cancelledOrders = 0;
+    while((line = br.readLine())!=null)
+	{
+    	String[] data = line.split(",");
+    	for (String string : data) {
+			if(string.equalsIgnoreCase("delivered"))
+			{
+				deliveredOrders++;
+			}else if(string.equals("cancelled"))
+			{
+				cancelledOrders++;
+			}
 					
+		}
+		countOne++;
+		
+	}
+    
+    String[] string = new String[2];
+    string[0] = "Total orders: ";
+    string[1] = String.valueOf(countOne);
+    
+    String[] stringOne = new String[2];
+    stringOne[0] = "Delivered Orders";
+    stringOne[1] = String.valueOf(deliveredOrders);
+    
+    String[] stringTwo = new String[2];
+    stringTwo[0] = "Cancelled Orders: ";
+    stringTwo[1] = String.valueOf(cancelledOrders);
+
+    stringArray.add(string);
+    stringArray.add(stringOne);
+    stringArray.add(stringTwo);
+    
+	for (String[] stringCheck : stringArray) {
+				Row<PDPage> row = table.createRow(10f);
+				cell = row.createCell((100 / 3.0f) * 2, stringCheck[0] );
+				for (int i = 1; i < stringCheck.length; i++) {
+				   cell = row.createCell((250 / 9f), stringCheck[i]);
 				}
-				String[] newString = new String[3];
-				newString[0] = "Total number of Orders: "+countOne++;
-				newString[1] = "Number of Delivered Orders: "+deliveredOrders;
-				newString[2] = "Number of Cancelled Orders: "+cancelledOrders;
-		        int lineWidth=1;
-		        for (String cell : newString){
-		        	 	content.beginText();
-		                content.newLineAtOffset(100, 800 - 20f * lineWidth);
-		                content.showText(cell);
-		                content.endText(); 
-		                ++lineWidth;
-		            }
-			content.close();
-			document.save(new File(output));
-			document.close();
+	}
+	table.draw();
+	document.save(new File(output));
+	document.close();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		};
+		}
 		
 		return true;
 		
