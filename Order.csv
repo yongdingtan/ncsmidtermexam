@@ -1,0 +1,25 @@
+username,category ,order cost,date of order,Action
+Emma,cloths,500,5-Jan-18,delivered
+Ryan,shoes,400,6-Aug-19,delivered
+Ian,cloths,110,8-Jul-18,cancelled
+Sophia,electronics,1400,9-Feb-18,delivered
+Emma,shoes,470,17-Dec-18,delivered
+Ryan,electronics,25,6-Mar-19,cancelled
+Ryan,cloths,800,14-Apr-20,delivered
+Ian,grocery,640,8-Sep-19,delivered
+mike,grocery,100,7-Oct-19,cancelled
+mike,shoes,250,8-Apr-18,delivered
+mike,cloths,745,9-Nov-19,delivered
+Sophia,grocery,350,6-Jan-19,delivered
+Sophia,pharma,780,8-Aug-19,delivered
+Sophia,cloths,1800,9-Jan-20,delivered
+Ryan,pharma,1750,14-Dec-20,delivered
+Ian,pharma,320,8-Mar-20,delivered
+mike,shoes,150,11-Feb-18,cancelled
+Emma,electronics,800,5-Jul-19,delivered
+Sophia,shoes,150,17-Apr-19,cancelled
+Sophia,electronics,1500,6-Jan-19,delivered
+mike,grocery,900,7-Oct-19,delivered
+Ryan,pharma,80,14-Dec-20,cancelled
+Emma,electronics,3800,15-Jul-18,delivered
+Sophia,grocery,1380,8-Oct-20,delivered
