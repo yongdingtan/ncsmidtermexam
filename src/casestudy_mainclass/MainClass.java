@@ -425,9 +425,7 @@ public class MainClass implements IOrderService{
 		PDDocument document = new PDDocument();
         PDPage page = new PDPage(PDRectangle.A4);
         document.addPage(page);
-        PDPageContentStream content;
 		String line;
-		
 		
 	try {
 	BaseTable table = new BaseTable(800, 500, 50, 200, 50, document, page, true, true);
@@ -439,7 +437,7 @@ public class MainClass implements IOrderService{
 	BufferedReader br = new BufferedReader(new FileReader(path));
 	
 	List<String[]> stringArray = new ArrayList<String[]>();
-	int countOne = -1;
+	int totalOrders = -1;
 	int deliveredOrders = 0;
 	int cancelledOrders = 0;
     while((line = br.readLine())!=null)
@@ -455,13 +453,13 @@ public class MainClass implements IOrderService{
 			}
 					
 		}
-		countOne++;
+		totalOrders++;
 		
 	}
     
     String[] string = new String[2];
     string[0] = "Total orders: ";
-    string[1] = String.valueOf(countOne);
+    string[1] = String.valueOf(totalOrders);
     
     String[] stringOne = new String[2];
     stringOne[0] = "Delivered Orders";
